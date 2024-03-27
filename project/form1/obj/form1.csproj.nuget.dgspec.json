@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\umity_gf8afn4\\My Drive\\uni\\8. Yarıyıl\\bitirme\\source-code\\omr\\form1\\form1.csproj": {}
+    "C:\\Users\\umity_gf8afn4\\OneDrive\\Masaüstü\\Repositories\\omr-working\\project\\form1\\form1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\umity_gf8afn4\\My Drive\\uni\\8. Yarıyıl\\bitirme\\source-code\\omr\\form1\\form1.csproj": {
+    "C:\\Users\\umity_gf8afn4\\OneDrive\\Masaüstü\\Repositories\\omr-working\\project\\form1\\form1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\umity_gf8afn4\\My Drive\\uni\\8. Yarıyıl\\bitirme\\source-code\\omr\\form1\\form1.csproj",
+        "projectUniqueName": "C:\\Users\\umity_gf8afn4\\OneDrive\\Masaüstü\\Repositories\\omr-working\\project\\form1\\form1.csproj",
         "projectName": "form1",
-        "projectPath": "C:\\Users\\umity_gf8afn4\\My Drive\\uni\\8. Yarıyıl\\bitirme\\source-code\\omr\\form1\\form1.csproj",
+        "projectPath": "C:\\Users\\umity_gf8afn4\\OneDrive\\Masaüstü\\Repositories\\omr-working\\project\\form1\\form1.csproj",
         "packagesPath": "C:\\Users\\umity_gf8afn4\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\umity_gf8afn4\\My Drive\\uni\\8. Yarıyıl\\bitirme\\source-code\\omr\\form1\\obj\\",
+        "outputPath": "C:\\Users\\umity_gf8afn4\\OneDrive\\Masaüstü\\Repositories\\omr-working\\project\\form1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\umity_gf8afn4\\AppData\\Roaming\\NuGet\\NuGet.Config",

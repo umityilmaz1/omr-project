@@ -1,5 +1,8 @@
-﻿using Emgu.CV.CvEnum;
-using Emgu.CV;
+﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Util;
+using Emgu.CV.Structure;
+using System;
 
 namespace form1
 {
@@ -26,12 +29,73 @@ namespace form1
             Mat? imgCannyCopy = new(); ;
             imgCanny.CopyTo(imgCannyCopy);
 
-            Mat? contours = new();
-            Mat? hierarchy = new();
+            VectorOfVectorOfPoint contours = new VectorOfVectorOfPoint();
+            Mat hierarchy = new Mat();
+
             CvInvoke.FindContours(imgCannyCopy, contours, hierarchy, mode: RetrType.External, method: ChainApproxMethod.ChainApproxSimple);
+            //CvInvoke.DrawContours(img, contours, 0, new MCvScalar(255, 0, 0), 2);
 
+            VectorOfPoint docCnt = null;
 
-            CvInvoke.Imshow("Original", imgCannyCopy);
+            if (contours.Length > 0)
+            {
+                for (int i = 0; i < contours.Length; i++)
+                {
+                    var peri = CvInvoke.ArcLength(contours[i], true);
+                    VectorOfPoint approx = new VectorOfPoint();
+                    CvInvoke.ApproxPolyDP(contours[i], approx, 0.02 * peri, true);
+
+                    if (approx.Length == 4)
+                    {
+                        docCnt = approx;
+                        break;
+                    }
+                }
+            }
+
+            //PERSPECTIVE TRANSFORM
+            // Dönüştürülecek köşeleri seçin
+            Point[] srcPoints = docCnt.ToArray();
+
+            // Hedef köşeleri tanımlayın (örneğin, dikdörtgen bir görüntü için)
+            Point[] dstPoints = new Point[] {
+                                            new Point(0, 0),
+                                            new Point(widthImg, 0),
+                                            new Point(widthImg, heightImg),
+                                            new Point(0, heightImg)
+};
+
+            VectorOfPoint srcPointsVec = new VectorOfPoint(srcPoints);
+            Mat srcPointsMat = srcPointsVec.GetInputArray().GetMat();
+
+            VectorOfPoint dstPointsVec = new VectorOfPoint(dstPoints);
+            Mat dstPointsMat = dstPointsVec.GetInputArray().GetMat();
+
+            // Dönüşüm matrisini hesaplayın
+            Mat perspectiveTransform = CvInvoke.GetPerspectiveTransform(srcPointsMat, dstPointsMat);
+
+            Image<Bgr, Byte> image = img.ToImage<Bgr, Byte>();
+            Image<Bgr, Byte> paper = image.WarpAffine(
+    perspectiveTransform,
+    image.Width, img.Height,
+            Inter.Cubic,
+    Warp.FillOutliers,
+    Emgu.CV.CvEnum.BorderType.Constant,
+    new Bgr(0, 0, 0));
+
+            Image<Bgr, Byte> imageGray = img.ToImage<Bgr, Byte>();
+            Image<Bgr, Byte> warped = image.WarpAffine(
+    perspectiveTransform,
+    image.Width, img.Height,
+            Inter.Cubic,
+    Warp.FillOutliers,
+    Emgu.CV.CvEnum.BorderType.Constant,
+    new Bgr(0, 0, 0));
+
+            Mat thresh = new();
+            CvInvoke.Threshold(warped, thresh, 0, 255, ThresholdType.Binary | ThresholdType.Otsu);
+
+            CvInvoke.Imshow("Original", img);
 
             CvInvoke.WaitKey(0);
 
